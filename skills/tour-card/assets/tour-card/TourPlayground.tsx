@@ -7,7 +7,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import TourCard, {
   DEFAULT_CARD_STYLE,
-  FIGMA_CARD_STYLE,
   type CardContent,
   type CardStyle,
   type EditableField,
@@ -21,6 +20,7 @@ import {
   Switch,
 } from "./controls";
 import DashboardMock from "./DashboardMock";
+import { TOUR_CARD_STYLE } from "./tour-card.config";
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 
@@ -66,11 +66,13 @@ const INITIAL_STEPS: CardContent[] = SEED.map((s, i) => ({
 
 const STEP_OPTIONS = INITIAL_STEPS.map((_, i) => ({ id: String(i), label: String(i + 1) }));
 
-const PRESETS = { default: DEFAULT_CARD_STYLE, figma: FIGMA_CARD_STYLE } as const;
+/** The look detected from this codebase (tour-card.config.ts) and the skill's neutral default. */
+const BRAND_CARD_STYLE: CardStyle = { ...DEFAULT_CARD_STYLE, ...TOUR_CARD_STYLE };
+const PRESETS = { brand: BRAND_CARD_STYLE, default: DEFAULT_CARD_STYLE } as const;
 type PresetId = keyof typeof PRESETS;
 const PRESET_OPTIONS: { id: PresetId; label: string }[] = [
+  { id: "brand", label: "Your brand" },
   { id: "default", label: "Default" },
-  { id: "figma", label: "Figma" },
 ];
 const sameStyle = (a: CardStyle, b: CardStyle) =>
   (Object.keys(b) as (keyof CardStyle)[]).every((k) => a[k] === b[k]);
@@ -92,9 +94,9 @@ export default function TourPlayground() {
   const [step, setStep] = useState(0);
   const [steps, setSteps] = useState(INITIAL_STEPS);
 
-  const [cardState, setCard] = useState<CardStyle>(DEFAULT_CARD_STYLE);
+  const [cardState, setCard] = useState<CardStyle>(BRAND_CARD_STYLE);
   // Backfill from defaults so settings added later never arrive undefined (e.g. across hot reloads).
-  const card: CardStyle = { ...DEFAULT_CARD_STYLE, ...cardState };
+  const card: CardStyle = { ...BRAND_CARD_STYLE, ...cardState };
   const setC = <K extends keyof CardStyle>(k: K, v: CardStyle[K]) => setCard((c) => ({ ...c, [k]: v }));
   const [scale, setScale] = useState(0.8);
   const preset = (Object.keys(PRESETS) as PresetId[]).find((id) => sameStyle(card, PRESETS[id])) ?? ("custom" as PresetId);
@@ -236,7 +238,11 @@ export default function TourPlayground() {
             </div>
           </Section>
 
-          <Section title="Font weight">
+          <Section title="Typography">
+            <div className="grid grid-cols-2 gap-1.5">
+              <Slider label="Title size" value={card.headingSize} min={12} max={28} step={1} format={px} onChange={(v) => setC("headingSize", v)} />
+              <Slider label="Text size" value={card.textSize} min={11} max={20} step={1} format={px} onChange={(v) => setC("textSize", v)} />
+            </div>
             <div className="grid grid-cols-3 gap-1.5">
               <Slider label="Title" value={card.headingWeight} min={100} max={900} step={100} format={num} onChange={(v) => setC("headingWeight", v)} />
               <Slider label="Text" value={card.textWeight} min={100} max={900} step={100} format={num} onChange={(v) => setC("textWeight", v)} />

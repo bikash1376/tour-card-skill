@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: match-design-system
+expected_outcome: |
+  A tour card styled from the project's own tokens (primary, radius, font, popover surface) via a
+  single config, using lucide-react for the close icon, plus a temporary dev-only playground route
+  the user is told about, with a plan to remove it once they are happy.
+context:
+  scaffold_script: place-files.sh
