@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: tour-card-playground
+expected_outcome: |
+  A playground route with side control panels (sliders, segmented controls, switches, colour pickers, a control to position the pointer) driving a live tour card over a mock app backdrop; double-click editing of card text; changing card size does not move the panels.

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: figma-style-announcement
+expected_outcome: |
+  A React + Tailwind announcement card matching the Figma reference: full-bleed media, title with close button, body text kept away from the card edges, filled grey secondary button, blue primary, no counter, a pointer triangle on the right edge near the bottom that blends seamlessly into the card.

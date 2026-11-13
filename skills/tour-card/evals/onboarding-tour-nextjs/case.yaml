@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: onboarding-tour-nextjs
+expected_outcome: |
+  A self-contained tour card component plus a demo page: dark card with heading, close button, media that autoplays videos muted/looped without controls, subtext, step counter, Later and Next; uses lucide-react and framer-motion instead of other libraries; dims a mock dashboard behind it; steps advance and the tour closes.
